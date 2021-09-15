@@ -8,6 +8,7 @@ const CategoryController = require('../controllers/Category');
 const CommentController = require('../controllers/Comment');
 const UserController = require('../controllers/Users');
 const EpisodeController = require('../controllers/Episode');
+const HistoryController = require('../controllers/History');
 // /admin/add-product => GET
 
 
@@ -15,6 +16,7 @@ router.get('/searcManga', MangaController.getSearchMangas);
 router.get('/searchCategory', CategoryController.getSearchCategory);
 router.get('/searcUser', UserController.getSearchUsers);
 router.get('/searchComment', CommentController.getSearchComment); 
+router.get('/searchHistory', HistoryController.getSearchHistory);
 
 
 ///////////////////////////////////////....Insert....////////////////////////////////////////////////////////
@@ -63,7 +65,7 @@ router.post('/insertUser', [
 router.post('/insertEpisode', [
 
     check('manga_ep').isArray().not().withMessage("manga_ep is required"),
-    check('manga_id').isFloat({ gt: 0 }).withMessage("Manga_id than zero")
+    check('manga_id').not().isEmpty().withMessage('manga_id is require')
     
 ],EpisodeController.postAddEpisode);
 
@@ -127,6 +129,12 @@ router.get('/update/:Users_id', UserController.getUpdateUsers);
 router.get('/updateCategory/:Category_id', CategoryController.getUpdateCategory);
 router.get('/updateComment/:Comment_id', CommentController.getUpdateComment);
 router.get('/update/:Episode_id', EpisodeController.getUpdateEpisode);
+
+
+router.post('/insertHistory', [
+    check('user_id').not().isEmpty().withMessage('user_id is require'),
+    check('history').not().isEmpty().withMessage('history is require')
+], HistoryController.postAddHistory);
 
 
 exports.routes = router;
