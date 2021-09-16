@@ -9,14 +9,16 @@ const CommentController = require('../controllers/Comment');
 const UserController = require('../controllers/Users');
 const EpisodeController = require('../controllers/Episode');
 const HistoryController = require('../controllers/History');
+const Episode = require('../models/Episode');
 // /admin/add-product => GET
 
 
-router.get('/searcManga', MangaController.getSearchMangas);
+router.get('/searchManga', MangaController.getSearchMangas);
 router.get('/searchCategory', CategoryController.getSearchCategory);
 router.get('/searcUser', UserController.getSearchUsers);
 router.get('/searchComment', CommentController.getSearchComment); 
 router.get('/searchHistory', HistoryController.getSearchHistory);
+router.get('/searchEpisode', EpisodeController.getSearchEpisode);
 
 
 ///////////////////////////////////////....Insert....////////////////////////////////////////////////////////
@@ -111,8 +113,9 @@ router.post('/updateUser', [
 
 router.post('/updateEpisode', [
 
+    check('episode_id').not().isEmpty().withMessage('episode_id is require'),
     check('manga_ep').isArray().not().withMessage("manga_ep is required"),
-    check('manga_id').isFloat({ gt: 0 }).withMessage("Manga_id than zero")
+    check('manga_id').not().isEmpty().withMessage('manga_id is require')
     
 ],EpisodeController.postUpdateEpisode);
 
@@ -121,14 +124,14 @@ router.get('/delete/:Manga_id', MangaController.getDeleteMangas);
 router.get('/delete/:Users_id', UserController.getDeleteUsers);
 router.get('/deleteCategory/:Category_id', CategoryController.getDeleteCategory);
 router.get('/deleteComment/:Comment_id', CommentController.getDeleteComment);
-router.get('/delete/:Episode_id', EpisodeController.getDeleteEpisode);
+router.get('/deleteEpisode/:episode_id', EpisodeController.getDeleteEpisode);
 
 
 router.get('/update/:Manga_id', MangaController.getUpdateMangas);
 router.get('/update/:Users_id', UserController.getUpdateUsers);
 router.get('/updateCategory/:Category_id', CategoryController.getUpdateCategory);
 router.get('/updateComment/:Comment_id', CommentController.getUpdateComment);
-router.get('/update/:Episode_id', EpisodeController.getUpdateEpisode);
+router.get('/updateEpisode/:episode_id', EpisodeController.getUpdateEpisode);
 
 
 router.post('/insertHistory', [

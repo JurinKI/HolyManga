@@ -7,7 +7,6 @@ var mongoose = require('mongoose');
 
 
 exports.getSearchHistory = (req, res, next) => {
-    console.log("fuck u")
     History.fetchAll()
         .then(Historys => {
             res.status(200).json({
@@ -28,12 +27,11 @@ exports.getSearchHistory = (req, res, next) => {
 }
 
 exports.postAddHistory = (req, res, next) => {
-    // console.log(req.body);
+    console.log(req.body);
     const { user_id,history } = req.body;
     const errors = validationResult(req);
-    console.log("historysssss",history[0].manga_id);
+    // console.log("historysssss",history[0].manga_id);
     var u_id = mongoose.Types.ObjectId(user_id);
-    var h_id = mongoose.Types.ObjectId(history[0].manga_id);
     history[0].manga_id = mongoose.Types.ObjectId(history[0].manga_id);
    
     if (!errors.isEmpty()) {
@@ -45,13 +43,10 @@ exports.postAddHistory = (req, res, next) => {
             }
         });
     } else {
-        // const historys = new History(u_id,history);
         const historys = new History(u_id, history)
         historys
             .save()
             .then(result => {
-                // console.log(result);
-                // console.log(result);
                 console.log('Created History');
                 res.status(200).json({
                     response: {
